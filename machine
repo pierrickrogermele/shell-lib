@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# GET MACHINE NAME
+
+name=$(uname -n | sed 's/^\([^.]*\)\..*$/\1/')
+
+if [ -z "$name" ] ; then
+	echo Unable to get machine\'s name ! >&2
+	exit 1
+fi
+
+echo $name

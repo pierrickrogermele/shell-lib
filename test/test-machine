@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+machine=`../machine`
+
+if [ -z "$machine" ] ; then
+	echo "machine script failed !" >&2
+	exit 1
+fi
