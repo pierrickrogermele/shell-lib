@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# GET MACHINE OS
+
+os=$(uname | tr 'A-Z' 'a-z')
+
+if [ -z "$os" ] ; then
+	echo Unable to get machine\'s operating system ! >&2
+	exit 1
+fi
+
+echo $os
