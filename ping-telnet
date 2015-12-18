@@ -73,7 +73,7 @@ function read_args {
 read_args "$@"
 
 # Run telnet with a timeout
-connected=$($TIMEOUT -t 1 telnet $HOST $PORT | grep Connected)
+connected=$($TIMEOUT -t 1 telnet $HOST $PORT 2>&1 | grep Connected)
 
 # Return error code according to connection success
 if [ -z "$connected" ] ; then
