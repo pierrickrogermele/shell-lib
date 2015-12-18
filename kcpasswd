@@ -1,0 +1,60 @@
+#!/bin/bash
+
+##############
+# PRINT HELP #
+##############
+
+function print_help {
+	prg=$(basename $0)
+	echo "OVERVIEW: $prg accesses a MacOS-X key chain item and retrieves the password of an account."
+	echo
+	echo "USAGE: $prg [options]"
+	echo
+	echo "OPTIONS:"
+	echo " -a account    Set the account."
+	echo " -h            Print this message and exit."
+	echo " -k keychain   Set the keychain item."
+}
+
+#############
+# READ ARGS #
+#############
+
+function read_args {
+	keychainitem=
+	account=
+	while getopts "hk:a:" flag ; do
+		case $flag in
+			a) account=$OPTARG ;;
+			h) print_help ; exit 0 ;;
+			k) keychainitem=$OPTARG ;;
+		esac
+	done
+	shift $((OPTIND - 1))
+
+	if [ -z "$keychainitem" ] ; then
+		echo "Missing required argument: keychain item." >&2
+		exit 1
+	fi
+
+	if [ -z "$account" ] ; then
+		echo "Missing required argument: account." >&2
+		exit 1
+	fi
+}
+
+########
+# MAIN #
+########
+
+read_args "$@"
+
+# Retrieve password from the MacOS-X Keychain access application.
+passwd=$(security find-generic-password -l "$keychainitem" -a "$account" -w)
+if [ $? -ne 0 ] ; then
+	# When the item/account couple can't be found in the Keychain, it returns the status 44 and the following message:
+	# security: SecKeychainSearchCopyNext: The specified item could not be found in the keychain.
+	echo "The account \"$account\" couldn't be found in keychain \"$keychainitem\"." >&2
+	exit 2
+fi
+echo $passwd
