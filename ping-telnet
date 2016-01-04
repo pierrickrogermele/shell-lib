@@ -18,6 +18,7 @@ fi
 HOST=
 PORT=
 QUIET=
+DEBUG=
 
 #########
 # ERROR #
@@ -50,6 +51,7 @@ function read_args {
 		case $1 in
 			-h|--help) print_usage ; exit 0 ;;
 			-q|--quiet) QUIET=yes ;;
+			-d|--debug) DEBUG=yes ;;
 			-?*) error "Unknown option \"$1\"." ;;
 			*) break
 		esac
@@ -73,7 +75,9 @@ function read_args {
 read_args "$@"
 
 # Run telnet with a timeout
-connected=$($TIMEOUT -t 1 telnet $HOST $PORT 2>&1 | grep Connected)
+telnet_output=$($TIMEOUT -t 1 telnet $HOST $PORT 2>&1)
+[ -z "$DEBUG" ] || echo $telnet_output
+connected=$(echo $telnet_output | grep Connected)
 
 # Return error code according to connection success
 if [ -z "$connected" ] ; then
