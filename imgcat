@@ -55,7 +55,15 @@ function show_help() {
     echo "   or: cat filename | imgcat" 1>& 2
 }
 
-## Main
+########
+# MAIN #
+########
+
+# Test if under iTerm2
+if [ "$TERM_PROGRAM" != "iTerm.app" ] ; then
+	echo "$(basename $0) can only run under iTerm2 terminal application version 2.9 or higher." >&2
+	exit 0;
+fi
 
 if [ -t 0 ]; then
     has_stdin=f
