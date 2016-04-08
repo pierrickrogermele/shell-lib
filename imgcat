@@ -7,18 +7,34 @@
 # only accepts ESC backslash for ST.
 function print_osc() {
     if [[ $TERM == screen* ]] ; then
-        printf "\033Ptmux;\033\033]"
+	    echo
+	    echo
+	    echo
+	    echo
+	    echo
+	    echo
+	    echo
+	    echo $'\e[7A'
+        printf $'\ePtmux;\e\e]'
+#        printf "\033Ptmux;\033\033]"
     else
-        printf "\033]"
+#        printf "\033]"
+        printf $'\e]'
     fi
 }
 
 # More of the tmux workaround described above.
 function print_st() {
     if [[ $TERM == screen* ]] ; then
-        printf "\a\033\\"
+#        printf "\a\033\\"
+        printf $'\a\e\\'
+echo
+echo
+echo
+echo
     else
-        printf "\a"
+#        printf "\a"
+        printf $'\a'
     fi
 }
 
