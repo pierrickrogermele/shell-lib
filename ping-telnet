@@ -51,7 +51,7 @@ function read_args {
 		case $1 in
 			-h|--help) print_usage ; exit 0 ;;
 			-q|--quiet) QUIET=yes ;;
-			-d|--debug) DEBUG=yes ;;
+			-g|--debug) DEBUG=yes ;;
 			-?*) error "Unknown option \"$1\"." ;;
 			*) break
 		esac
